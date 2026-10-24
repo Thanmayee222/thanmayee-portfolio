@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thanmayee Chakravarthy - AI & ML Portfolio</title>
+    <meta name="description" content="AI & ML Engineer specializing in deep learning, robotics, and cybersecurity">
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // Simple icon components
+        const Github = () => (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+            </svg>
+        );
+
+        const Linkedin = () => (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+                <rect x="2" y="9" width="4" height="12"/>
+                <circle cx="4" cy="4" r="2"/>
+            </svg>
+        );
+
+        const Mail = () => (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                <polyline points="22,6 12,13 2,6"/>
+            </svg>
+        );
+
+        const Phone = () => (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+        );
+
+        const ChevronDown = () => (
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <polyline points="6 9 12 15 18 9"/>
+            </svg>
+        );
+
+        const Menu = () => (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <line x1="3" y1="12" x2="21" y2="12"/>
+                <line x1="3" y1="6" x2="21" y2="6"/>
+                <line x1="3" y1="18" x2="21" y2="18"/>
+            </svg>
+        );
+
+        const X = () => (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <line x1="18" y1="6" x2="6" y2="18"/>
+                <line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+        );
+
+        const GraduationCap = () => (
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+                <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+            </svg>
+        );
+
+        const FileText = () => (
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+                <line x1="16" y1="13" x2="8" y2="13"/>
+                <line x1="16" y1="17" x2="8" y2="17"/>
+                <polyline points="10 9 9 9 8 9"/>
+            </svg>
+        );
+
+        const Briefcase = () => (
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+            </svg>
+        );
+
+        const Award = () => (
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <circle cx="12" cy="8" r="7"/>
+                <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/>
+            </svg>
+        );
+
+        const Code = () => (
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <polyline points="16 18 22 12 16 6"/>
+                <polyline points="8 6 2 12 8 18"/>
+            </svg>
+        );
+
+        function Portfolio() {
+          const [activeSection, setActiveSection] = useState('home');
+          const [isMenuOpen, setIsMenuOpen] = useState(false);
+          const [isVisible, setIsVisible] = useState(false);
+
+          useEffect(() => {
+            setIsVisible(true);
+          }, []);
+
+          const projects = [
+      {
+              title: "Regional Ionospheric TEC Forecasting Using ConvLSTM and Self-Distillation",
+              period: "Research Project",
+              points: [
+                "Developed a spatiotemporal deep-learning approach to forecast regional ionospheric Total Electron Content (TEC)",
+                "Explored self-distillation with ConvLSTM to improve model generalization",
+                "Evaluated GNSS-derived TEC data for Hyderabad and Bengaluru using forecasting error and correlation metrics"
+              ],
+              tags: ["ConvLSTM", "Deep Learning", "Self-Distillation", "Time-Series Forecasting"],
+              github: "",
+              demo: ""
+            },
+      {
+              title: "AI-Powered Cybersecurity Deception System",
+              period: "Jan 2025 – Jun 2025",
+              points: [
+                "Designed adaptive deception framework with GANs and NLP for synthetic data generation",
+                "Engineered dynamic honeypots adjusting to real-time threat patterns",
+                "Built cloud-hosted dashboard for threat visualization and AI-driven risk prediction",
+                "Reduced detection latency by 40% and improved adversarial defense accuracy by 30%"
+              ],
+              tags: ["GANs", "NLP", "Cybersecurity", "Cloud"],
+              github: "https://github.com/Thanmayee222/cyberdec",
+              demo: ""
+            },
+      {
+              title: "Potato Disease Detection Using CNN",
+              period: "Mar 2024 – Sept 2024",
+              points: [
+                "Implemented CNN achieving 94.2% accuracy on real-world agricultural data",
+                "Applied extensive data augmentation for robust generalization",
+                "Optimized inference performance with 25% faster model execution"
+              ],
+              tags: ["CNN", "Computer Vision", "Agriculture"],
+              github: "https://github.com/Thanmayee222/potatodisease",
+              demo: ""
+            },
+      {
+              title: "Credit Card Fraud Detection",
+              period: "Apr 2023 – Nov 2023",
+              points: [
+                "Built anomaly detection pipeline using Random Forest",
+                "Utilized PCA and SMOTE to handle data imbalance",
+                "Achieved 98.6% precision in real-time detection"
+              ],
+              tags: ["Random Forest", "ML", "Anomaly Detection"],
+              github: "https://github.com/Thanmayee222/FraudHound",
+              demo: ""
+            }
+    ];
+
+          const skills = {
+            "Programming": ["Python", "JavaScript", "Java", "C", "HTML", "CSS"],
+            "AI/ML": ["TensorFlow", "PyTorch", "Scikit-Learn", "OpenCV", "NumPy", "Pandas"],
+            "Web Dev": ["React.js", "Next.js", "Node.js", "Express.js", "MongoDB", "REST APIs"],
+            "DevOps": ["Docker", "Git", "GitHub", "Linux", "AWS"]
+          };
+
+          const achievements = [
+            "AI Hack Day 2025: Top 15% with AI-powered folktale generator",
+            "IASF 2025: Showcased AI web-mining system",
+            "METALOOP 2K23: Built AR vehicle component identifier",
+            "Published patent application on Multi-Sensor SLAM (202541014974 A)"
+          ];
+
+          const scrollToSection = (id) => {
+            setActiveSection(id);
+            setIsMenuOpen(false);
+            const element = document.getElementById(id);
+            if (element) {
+              element.scrollIntoView({ behavior: 'smooth' });
+            }
+          };
+
+          return (
+            <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950 to-slate-950 text-white">
+              {/* Navigation */}
+              <nav className="fixed top-0 w-full bg-slate-950/80 backdrop-blur-md z-50 border-b border-purple-500/20">
+                <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4">
+                  <div className="flex justify-between items-center">
+                    <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                      TC
+                    </h1>
+                    
+                    <div className="hidden md:flex space-x-8">
+                      {['home', 'about', 'projects', 'research', 'skills', 'contact'].map(section => (
+                        <button
+                          key={section}
+                          onClick={() => scrollToSection(section)}
+                          className={`capitalize transition-colors ${
+                            activeSection === section ? 'text-purple-400' : 'text-gray-300 hover:text-purple-400'
+                          }`}
+                        >
+                          {section}
+                        </button>
+                      ))}
+                    </div>
+
+                    <button 
+                      className="md:hidden text-white"
+                      onClick={() => setIsMenuOpen(!isMenuOpen)}
+                    >
+                      {isMenuOpen ? <X /> : <Menu />}
+                    </button>
+                  </div>
+
+                  {isMenuOpen && (
+                    <div className="md:hidden mt-4 pb-4 space-y-3">
+                      {['home', 'about', 'projects', 'research', 'skills', 'contact'].map(section => (
+                        <button
+                          key={section}
+                          onClick={() => scrollToSection(section)}
+                          className="block w-full text-left capitalize text-gray-300 hover:text-purple-400 py-2"
+                        >
+                          {section}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </nav>
+
+              {/* Hero Section */}
+              <section id="home" className="min-h-screen flex items-center justify-center px-4 pt-20">
+                <div className={`max-w-4xl mx-auto text-center transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                  <div className="mb-6">
+                    <div className="w-32 h-32 mx-auto mb-6 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 p-1">
+                      <div className="w-full h-full rounded-full bg-slate-900 flex items-center justify-center text-5xl font-bold">
+                        TC
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <h1 className="text-5xl md:text-7xl font-bold mb-4 bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent animate-pulse">
+                    Thanmayee Chakravarthy
+                  </h1>
+                  
+                  <p className="text-xl md:text-2xl text-purple-300 mb-6">
+                    AI & ML Engineer | Deep Learning Specialist
+                  </p>
+                  
+                  <p className="text-lg text-gray-300 mb-8 max-w-2xl mx-auto">
+                    Building intelligent systems at the intersection of deep learning, computer vision, and cybersecurity
+                  </p>
+                  
+                  <div className="flex justify-center space-x-4 mb-12">
+                    <a href="https://github.com/Thanmayee222" target="_blank" rel="noopener noreferrer" 
+                       className="p-3 bg-purple-600/20 hover:bg-purple-600/40 rounded-full transition-all hover:scale-110">
+                      <Github />
+                    </a>
+                    <a href="https://www.linkedin.com/in/thanmayee222/" target="_blank" rel="noopener noreferrer"
+                       className="p-3 bg-purple-600/20 hover:bg-purple-600/40 rounded-full transition-all hover:scale-110">
+                      <Linkedin />
+                    </a>
+                    <a href="mailto:thanmayeec04@gmail.com"
+                       className="p-3 bg-purple-600/20 hover:bg-purple-600/40 rounded-full transition-all hover:scale-110">
+                      <Mail />
+                    </a>
+                  </div>
+
+                  <button 
+                    onClick={() => scrollToSection('about')}
+                    className="animate-bounce"
+                  >
+                    <ChevronDown />
+                  </button>
+                </div>
+              </section>
+
+              {/* About Section */}
+              <section id="about" className="min-h-screen flex items-center px-4 py-20">
+                <div className="max-w-5xl mx-auto">
+                  <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                    About Me
+                  </h2>
+                  
+                  <div className="grid md:grid-cols-2 gap-8">
+                    <div className="bg-slate-900/50 backdrop-blur-sm p-8 rounded-2xl border border-purple-500/20 hover:border-purple-500/40 transition-all">
+                      <GraduationCap />
+                      <h3 className="text-2xl font-bold mb-4 text-purple-300">Education</h3>
+                      <div className="space-y-4 text-gray-300">
+                        <div>
+                          <p className="font-semibold text-white">MLR Institute of Technology</p>
+                          <p className="text-sm">B.Tech in CSE (AI & ML) — Dual Degree</p>
+                          <p className="text-purple-400">CGPA: 8.86/10</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="bg-slate-900/50 backdrop-blur-sm p-8 rounded-2xl border border-purple-500/20 hover:border-purple-500/40 transition-all">
+                      <FileText />
+                      <h3 className="text-2xl font-bold mb-4 text-purple-300">Patents</h3>
+                      <div className="space-y-4">
+                        <div>
+                          <p className="text-gray-300 mb-2">Advanced Multi-Sensor SLAM for Dynamic Programming in Earthquake Scenarios</p>
+                          <p className="text-sm text-purple-400">Application No: 202541014974 A</p>
+                          <p className="text-xs text-gray-400">Published patent application</p>
+                        </div>
+                        <div className="border-t border-purple-500/20 pt-4">
+                          <p className="text-gray-300 mb-2">Regional Ionospheric TEC Forecasting Using ConvLSTM and Self-Distillation</p>
+                          <p className="text-sm text-purple-400">Application No: 202541121028 A</p>
+                          <p className="text-xs text-gray-400">Patent application</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="bg-slate-900/50 backdrop-blur-sm p-8 rounded-2xl border border-purple-500/20 hover:border-purple-500/40 transition-all">
+                      <Briefcase />
+                      <h3 className="text-2xl font-bold mb-4 text-purple-300">Experience</h3>
+                      <p className="font-semibold text-white">Full Stack Intern — CourseVita</p>
+                      <ul className="text-sm text-gray-300 mt-2 space-y-1">
+                        <li>• Developed MERN-based web applications</li>
+                        <li>• Enhanced UI/UX with React.js & Next.js</li>
+                        <li>• Improved engagement by 35%</li>
+                      </ul>
+                    </div>
+
+                    <div className="bg-slate-900/50 backdrop-blur-sm p-8 rounded-2xl border border-purple-500/20 hover:border-purple-500/40 transition-all">
+                      <Award />
+                      <h3 className="text-2xl font-bold mb-4 text-purple-300">Achievements</h3>
+                      <ul className="text-sm text-gray-300 space-y-2">
+                        {achievements.map((achievement, idx) => (
+                          <li key={idx} className="flex items-start">
+                            <span className="text-purple-400 mr-2">★</span>
+                            <span>{achievement}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              {/* Projects Section */}
+              <section id="projects" className="min-h-screen flex items-center px-4 py-20">
+                <div className="max-w-5xl mx-auto w-full">
+                  <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                    Projects
+                  </h2>
+                  
+                  <div className="space-y-6">
+                    {projects.map((project, idx) => (
+                      <div 
+                        key={idx}
+                        className="bg-slate-900/50 backdrop-blur-sm p-8 rounded-2xl border border-purple-500/20 hover:border-purple-500/40 transition-all hover:scale-[1.02]"
+                      >
+                        <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-4">
+                          <h3 className="text-2xl font-bold text-purple-300 mb-2 md:mb-0">{project.title}</h3>
+                          <span className="text-sm text-gray-400">{project.period}</span>
+                        </div>
+                        
+                        <ul className="space-y-2 mb-4">
+                          {project.points.map((point, i) => (
+                            <li key={i} className="text-gray-300 flex items-start">
+                              <span className="text-purple-400 mr-2">▹</span>
+                              <span>{point}</span>
+                            </li>
+                          ))}
+                        </ul>
+                        
+                        <div className="flex flex-wrap gap-2 mb-4">
+                          {project.tags.map((tag, i) => (
+                            <span key={i} className="px-3 py-1 bg-purple-600/20 text-purple-300 rounded-full text-sm">
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                        
+                        <div className="flex gap-3">
+                          {project.github && (
+                            <a 
+                              href={project.github}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="flex items-center gap-2 px-4 py-2 bg-purple-600/20 hover:bg-purple-600/40 text-purple-300 rounded-lg transition-all"
+                            >
+                              <Github />
+                              <span>View Code</span>
+                            </a>
+                          )}
+                          {project.demo && (
+                            <a 
+                              href={project.demo}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="flex items-center gap-2 px-4 py-2 bg-pink-600/20 hover:bg-pink-600/40 text-pink-300 rounded-lg transition-all"
+                            >
+                              <span>Live Demo</span>
+                            </a>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </section>
+
+              {/* Research Papers & Conference Presentations Section */}
+              <section id="research" className="min-h-screen flex items-center px-4 py-20">
+                <div className="max-w-5xl mx-auto w-full">
+                  <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                    Research Papers & Conference Presentations
+                  </h2>
+
+                  <div className="space-y-6">
+                    <article className="bg-slate-900/50 backdrop-blur-sm p-8 rounded-2xl border border-purple-500/20 hover:border-purple-500/40 transition-all">
+                      <h3 className="text-xl md:text-2xl font-bold text-purple-300 mb-3">
+                        Regional Ionospheric TEC Forecasting Using ConvLSTM and Self-Distillation: A Comprehensive Review and Experimental Study
+                      </h3>
+                      <p className="text-gray-300 leading-relaxed">
+                        This research investigates regional ionospheric Total Electron Content (TEC) forecasting using spatiotemporal deep learning. It explores ConvLSTM models combined with self-distillation and evaluates forecasting performance using GNSS-derived TEC data from Hyderabad and Bengaluru, comparing the approach with a baseline model using error and correlation metrics.
+                      </p>
+                    </article>
+
+                    <article className="bg-slate-900/50 backdrop-blur-sm p-8 rounded-2xl border border-purple-500/20 hover:border-purple-500/40 transition-all">
+                      <h3 className="text-xl md:text-2xl font-bold text-purple-300 mb-3">
+                        Real-Time AR Navigation and Spatial Assistance for the Visually Impaired Using Audio-Haptic Feedback
+                      </h3>
+                      <p className="text-gray-300 leading-relaxed">
+                        This work explores an assistive navigation approach combining augmented reality with audio and haptic feedback to communicate spatial and navigational information to visually impaired users and support awareness of their surroundings.
+                      </p>
+                    </article>
+                  </div>
+                </div>
+              </section>
+
+              {/* Skills Section */}
+              <section id="skills" className="min-h-screen flex items-center px-4 py-20">
+                <div className="max-w-5xl mx-auto w-full">
+                  <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                    Technical Skills
+                  </h2>
+                  
+                  <div className="grid md:grid-cols-2 gap-6">
+                    {Object.entries(skills).map(([category, items]) => (
+                      <div 
+                        key={category}
+                        className="bg-slate-900/50 backdrop-blur-sm p-8 rounded-2xl border border-purple-500/20 hover:border-purple-500/40 transition-all"
+                      >
+                        <Code />
+                        <h3 className="text-2xl font-bold mb-4 text-purple-300">{category}</h3>
+                        <div className="flex flex-wrap gap-2">
+                          {items.map((skill, idx) => (
+                            <span 
+                              key={idx}
+                              className="px-4 py-2 bg-purple-600/20 hover:bg-purple-600/40 text-purple-200 rounded-lg text-sm transition-all hover:scale-105"
+                            >
+                              {skill}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </section>
+
+              {/* Contact Section */}
+              <section id="contact" className="min-h-screen flex items-center px-4 py-20">
+                <div className="max-w-4xl mx-auto text-center w-full">
+                  <h2 className="text-4xl md:text-5xl font-bold mb-12 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                    Get In Touch
+                  </h2>
+                  
+                  <p className="text-xl text-gray-300 mb-12">
+                    I'm always open to discussing new projects, opportunities, or collaborations!
+                  </p>
+                  
+                  <div className="grid md:grid-cols-3 gap-6 mb-12">
+                    <a 
+                      href="https://mail.google.com/mail/?view=cm&fs=1&to=thanmayeec04%40gmail.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="bg-slate-900/50 backdrop-blur-sm p-6 rounded-2xl border border-purple-500/20 hover:border-purple-500/40 transition-all hover:scale-105"
+                    >
+                      <div className="flex justify-center mb-3">
+                        <Mail />
+                      </div>
+                      <p className="text-purple-300 font-semibold">Email</p>
+                      <p className="text-sm text-gray-400 break-all">thanmayeec04@gmail.com</p>
+                    </a>
+                    
+                    <a 
+                      href="tel:+916305092422"
+                      className="bg-slate-900/50 backdrop-blur-sm p-6 rounded-2xl border border-purple-500/20 hover:border-purple-500/40 transition-all hover:scale-105"
+                    >
+                      <div className="flex justify-center mb-3">
+                        <Phone />
+                      </div>
+                      <p className="text-purple-300 font-semibold">Phone</p>
+                      <p className="text-sm text-gray-400">+91 6305092422</p>
+                    </a>
+                    
+                    <a 
+                      href="https://www.linkedin.com/in/thanmayee222/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="bg-slate-900/50 backdrop-blur-sm p-6 rounded-2xl border border-purple-500/20 hover:border-purple-500/40 transition-all hover:scale-105"
+                    >
+                      <div className="flex justify-center mb-3">
+                        <Linkedin />
+                      </div>
+                      <p className="text-purple-300 font-semibold">LinkedIn</p>
+                      <p className="text-sm text-gray-400">Connect with me</p>
+                    </a>
+                  </div>
+                  
+                  <a 
+                    href="https://mail.google.com/mail/?view=cm&fs=1&to=thanmayeec04%40gmail.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-block px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 rounded-full font-semibold transition-all hover:scale-105 shadow-lg"
+                  >
+                    Send Me a Message
+                  </a>
+                </div>
+              </section>
+
+              {/* Footer */}
+              <footer className="border-t border-purple-500/20 py-8 text-center text-gray-400">
+                <p>© 2025 Thanmayee Chakravarthy. Built with React & Tailwind CSS.</p>
+              </footer>
+            </div>
+          );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<Portfolio />);
+    </script>
+</body>
+</html>
